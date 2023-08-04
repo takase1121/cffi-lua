@@ -45,7 +45,10 @@ extra_inc = []
 
 luaver = get_option('lua_version')
 
-if luaver == 'luajit'
+if luaver == 'lite-xl'
+    lua_dep = dependency('', required: false)
+    extra_inc += include_directories('lite-xl-plugin-api/include')
+elif luaver == 'luajit'
     lua_dep = dependency('luajit')
 elif luaver != 'auto' and luaver != 'custom' and luaver != 'vendor'
     lua_dep = dependency('lua' + luaver, required: false)
@@ -131,7 +134,7 @@ cffi_src = [
 # on windows, we need to link to the dll, the dll has a specific name that
 # follows the lua version we depend on; on unix-likes we on the other hand
 # do not need the library at all, so skip it
-if host_machine.system() == 'windows'
+if host_machine.system() == 'windows' and luaver != 'lite-xl'
     # msys2, etc
     lua_adep = cxx.find_library('lua', dirs: deps_libs, required: false)
     if not lua_adep.found()

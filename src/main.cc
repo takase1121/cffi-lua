@@ -8,6 +8,7 @@
  * not dependent on how we're compiling it.
  */
 
+#define LITE_XL_PLUGIN_ENTRYPOINT
 #include "lua.hh"
 
 #if defined(__CYGWIN__) || (defined(_WIN32) && !defined(_XBOX_VER))
@@ -30,3 +31,10 @@ extern "C" CFFI_LUA_EXPORT int luaopen_cffi(lua_State *L) {
     ffi_module_open(L);
     return 1;
 }
+
+#ifdef LITE_XL_PLUGIN_API
+extern "C" CFFI_LUA_EXPORT int luaopen_lite_xl_cffi(lua_State *L, void *XL) {
+    lite_xl_plugin_init(XL);
+    return luaopen_cffi(L);
+}
+#endif

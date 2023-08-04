@@ -1,0 +1,3 @@
+[submodule "lite-xl-plugin-api"]
+	path = lite-xl-plugin-api
+	url = https://github.com/takase1121/lite-xl-plugin-api.git
